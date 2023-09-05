@@ -132,3 +132,128 @@
 // }
 //=====================================================================================================
 
+// for loop in c
+
+// int main() 
+// {
+//     int a, b;
+//     scanf("%d\n%d", &a, &b);
+    
+//   	for(int i = a; i <= b; i++){
+//           if (i > 9 && i%2 == 0 ){
+//               printf("even");
+//           }
+//           else if( i > 9 && i%2 != 0){
+//               printf("odd");
+//           }
+//           switch (i) {
+//             case 1 :
+//             printf("one");
+//             break;
+            
+//             case 2:
+//             printf("two");
+//             break;
+            
+//             case 3:
+//             printf("three");
+//             break;
+            
+//             case 4:
+//             printf("four");
+//             break;
+            
+//             case 5:
+//             printf("five");
+//             break;
+            
+//             case 6:
+//             printf("six");
+//             break;
+            
+//             case 7:
+//             printf("seven");
+//             break;
+            
+//             case 8:
+//             printf("eight");
+//             break;
+            
+//             case 9:
+//             printf("nine");
+//             break;
+          
+//           }
+          
+//       }
+
+//     return 0;
+// }
+//=====================================================================================================
+// Sum of Digits of a Five Digit Number
+
+// int main() {
+	
+//     int n;
+//     scanf("%d", &n);
+    
+//     int sum = 0;
+//     while(n !=0){
+//         sum += n % 10;
+//         n = n/10; 
+//         //printf("%d\n",sum);       
+//     }
+//     printf("%d",sum);
+    
+    
+//     return 0;
+// }
+//=====================================================================================================
+
+// Bitwise Operators
+
+// void calculate_the_maximum(int n, int k) {
+//     int and = n & k;
+//     printf("%d",and);
+// }
+
+// int main() {
+//     int n, k;
+  
+//     scanf("%d %d", &n, &k);
+//     calculate_the_maximum(n, k);
+ 
+//     return 0;
+// }
+//=====================================================================================================
+// printing pattern using loops
+int main() 
+{
+
+    int n;
+    scanf("%d", &n);
+    
+
+    for(int  i = 1;i<= n +(n-1);i++){
+        for(int c =1;c <= n + (n-1);c++){
+
+           if(i == 1 || i == n + (n-1)){
+                printf("%d ",n);
+            }
+            else if (c == 1 || c == n + (n-1)){
+                printf("%d ",n);
+            }
+            else{
+                printf("x ");
+            }
+        }
+        printf("\n");
+        
+    }
+    return 0;
+
+}
+
+//  else if(c== 2 || i ==2){
+//                 printf("%d ",n-1);
+//             }
