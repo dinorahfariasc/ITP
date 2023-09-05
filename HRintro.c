@@ -232,21 +232,36 @@ int main()
 
     int n;
     scanf("%d", &n);
-    
 
-    for(int  i = 1;i<= n +(n-1);i++){
-        for(int c =1;c <= n + (n-1);c++){
+    int i = n;
+    int count = 1;
+    int r = 1;
 
-           if(i == 1 || i == n + (n-1)){
-                printf("%d ",n);
+    for(int  linha = 1;linha<= n +(n-1);linha++){
+        for(int coluna =1;coluna <= n + (n-1);coluna++){
+            
+            if(linha == count || linha == n + (n - linha)){
+                printf("%dl ",i);
             }
-            else if (c == 1 || c == n + (n-1)){
-                printf("%d ",n);
+            else if (coluna == count || coluna == n + (n - coluna)){
+                printf("%dc ",i);
             }
+
             else{
                 printf("x ");
             }
+           
         }
+
+        if (i >= 1 && r != n){
+            i--;
+            r++;
+        }
+        else{
+            i++;
+        }
+        
+        count++;
         printf("\n");
         
     }
@@ -254,6 +269,19 @@ int main()
 
 }
 
-//  else if(c== 2 || i ==2){
+// if(linha == 1 || linha == n + (n-1)){
+//                 printf("%d ",n);
+//             }
+//             else if (coluna == 1 || coluna == n + (n-1)){
+//                 printf("%d ",n);
+//             }
+
+//             else if (linha == 2 || linha == n + (n-2)){
 //                 printf("%d ",n-1);
+//             }
+//             else if (coluna == 2 || coluna == n + (n-2)){
+//                 printf("%d ",n-1);
+//             }
+//             else{
+//                 printf("x ");
 //             }
