@@ -227,47 +227,47 @@
 // }
 //=====================================================================================================
 // printing pattern using loops
-int main() 
-{
+// int main() 
+// {
 
-    int n;
-    scanf("%d", &n);
+//     int n;
+//     scanf("%d", &n);
 
-    int i = n;
-    int count = 1;
-    int r = 1;
+//     int i = n;
+//     int count = 1;
+//     int r = 1;
 
-    for(int  linha = 1;linha<= n +(n-1);linha++){
-        for(int coluna =1;coluna <= n + (n-1);coluna++){
+//     for(int  linha = 1;linha<= n +(n-1);linha++){
+//         for(int coluna =1;coluna <= n + (n-1);coluna++){
             
-            if(linha == count || linha == n + (n - linha)){
-                printf("%dl ",i);
-            }
-            else if (coluna == count || coluna == n + (n - coluna)){
-                printf("%dc ",i);
-            }
+//             if(linha == count || linha == n + (n - linha)){
+//                 printf("%dl ",i);
+//             }
+//             else if (coluna == count || coluna == n + (n - coluna)){
+//                 printf("%dc ",i);
+//             }
 
-            else{
-                printf("x ");
-            }
+//             else{
+//                 printf("x ");
+//             }
            
-        }
+//         }
 
-        if (i >= 1 && r != n){
-            i--;
-            r++;
-        }
-        else{
-            i++;
-        }
+//         if (i >= 1 && r != n){
+//             i--;
+//             r++;
+//         }
+//         else{
+//             i++;
+//         }
         
-        count++;
-        printf("\n");
+//         count++;
+//         printf("\n");
         
-    }
-    return 0;
+//     }
+//     return 0;
 
-}
+// }
 
 // if(linha == 1 || linha == n + (n-1)){
 //                 printf("%d ",n);
@@ -285,3 +285,5 @@ int main()
 //             else{
 //                 printf("x ");
 //             }
+
+//=====================================================================================================
