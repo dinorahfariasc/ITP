@@ -141,6 +141,49 @@
 
 // }
 //=======================================================
+// corrida de lesmas 
+// # include <stdio.h>
 
+// int nivel(int vel){
+//     if(vel >= 20){
+//         return 3;
+//     }
+//     else if (vel >= 10){
+//         return 2;
+//     }
+//     else if (vel < 10){
+//         return 1;
+//     }
+// }
+
+
+// int main(){
+
+//     int qnt;
+//     int lesma;
+//     int max = 0;
+
+//     scanf("%d ",&qnt);
+
+//     for(int x = 1; x < qnt;x++){
+//         scanf("%d ",&lesma);
+
+//         if (nivel(lesma) == 3){
+//             max = 3;
+//             break;
+//         }
+//         else if(nivel(lesma)== 2 ){
+//             max = 2;
+//         }
+//         else if((nivel(lesma) == 1) && max < 2){
+//             max = 1;
+//         }
+//     }
+
+//     printf("Level %d",max);
+
+
+// }
+//=============================
 
  
