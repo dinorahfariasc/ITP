@@ -1,3 +1,4 @@
+// vetor chato ou legal
 // # include<stdio.h>
 
 // int lendoVet(int tam){
@@ -32,7 +33,7 @@
 //     lendoVet(tamanho);
 // }
 //====================================================================
-
+// diferença simetrica
 // # include <stdio.h>
 
 // int main(){
@@ -70,6 +71,7 @@
     
 // }
 //=================================================
+// notas alunos
 // # include <stdio.h>
 
 
@@ -181,46 +183,89 @@
 //=============================================================
 
 //buble sort
-# include <stdio.h>
+// # include <stdio.h>
 
-void troca(int *x, int *y) {
-    int temp = *x;
-    *x = *y;
-    *y = temp;
-}
+// void troca(int *x, int *y) {
+//     int temp = *x;
+//     *x = *y;
+//     *y = temp;
+// }
 
-void bubbleSort(int arr[], int n) {
-    int i, j;
-    for (i = 0; i < n - 1; i++) {
-        for (j = 0; j < n - i - 1; j++) {
-            if (arr[j] > arr[j + 1]) {
-                troca(&arr[j], &arr[j + 1]);
-            }
-        }
+// void bubbleSort(int arr[], int n) {
+//     int i, j;
+//     for (i = 0; i < n - 1; i++) {
+//         for (j = 0; j < n - i - 1; j++) {
+//             if (arr[j] > arr[j + 1]) {
+//                 troca(&arr[j], &arr[j + 1]);
+//             }
+//         }
 
-        // Imprime o vetor após cada passo
+//         // Imprime o vetor após cada passo
         
-        for (int k = 0; k < n; k++) {
-            printf("%d ", arr[k]);
-        }
-        printf("\n");
-    }
-}
+//         for (int k = 0; k < n; k++) {
+//             printf("%d ", arr[k]);
+//         }
+//         printf("\n");
+//     }
+// }
 
-int main() {
-    int n;
+// int main() {
+//     int n;
    
-    scanf("%d", &n);
+//     scanf("%d", &n);
 
-    int arr[n];
+//     int arr[n];
     
-    for (int i = 0; i < n; i++) {
-        scanf("%d", &arr[i]);
-        printf("%d ",arr[i]);
-    }
-    printf("\n");
+//     for (int i = 0; i < n; i++) {
+//         scanf("%d", &arr[i]);
+//         printf("%d ",arr[i]);
+//     }
+//     printf("\n");
 
-    bubbleSort(arr, n);
+//     bubbleSort(arr, n);
 
-    return 0;
-}
+//     return 0;
+// }
+
+//===========================================================================
+
+// diferença conjuntos
+
+// # include <stdio.h>
+
+// void conjuntoSimetrico(int n, int m, int conj1[50], int conj2[50], int num){
+    
+//     for(int i = 0;i < n;i++){
+//         int num;
+//         scanf("%d ",&num);
+//         conj1[num] = 1;
+//     }
+
+//     for(int i = 0;i < m;i++){
+//         int num;
+//         scanf("%d ",&num);
+//         conj2[num] = 1;
+//     }
+// }
+
+// int main(){
+//     int n;
+//     int m;
+
+//     scanf("%d %d ", &n, &m);
+
+//     int conj1[50] = {0};
+//     int conj2[50] = {0};
+
+//     int num;
+
+//     conjuntoSimetrico(n,m,conj1,conj2,num);
+
+//     for (int i = 0; i < 50; i++){
+//         if((conj1[i] || conj2[i]) && !(conj1[i] && conj2[i])){
+//             printf("%d ",i);
+//         }
+//     }
+//     printf("\n");
+
+// }
