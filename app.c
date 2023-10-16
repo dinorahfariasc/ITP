@@ -186,4 +186,42 @@
 // }
 //=============================
 
- 
+# include <stdio.h>
+
+int main(){
+    
+    int equipes;
+    int c = 0;
+    int s = 0;
+    int l = 0;
+    int total = 0;
+    
+    scanf("%d",&equipes);
+    
+    for (int i = 0; i < equipes; i++){
+        char prova;
+        
+        while (1){
+            scanf(" %c",&prova);
+            if (prova == 'F'){
+                break;
+            }
+            if (prova == 'C'){
+                c++;
+            }
+            else if (prova == 'S'){
+                s++;
+            }
+            else if (prova == 'L')
+            {
+                l++;
+            }
+            total++;
+        }
+        
+    }
+    
+    printf("%d %d %d %d\n", c,s,l,total);
+    
+    
+}
