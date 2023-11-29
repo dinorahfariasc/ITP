@@ -10,11 +10,6 @@ typedef struct {
     int numeroLinhas;
 } Tabela;
 
-void limparBuffer() {
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
-}
-
 void criarTabela(Tabela **todasTabelas, int *todasTabelas_size) {
     char nome[100];
     printf("Digite o nome da tabela: ");
@@ -35,7 +30,6 @@ void criarTabela(Tabela **todasTabelas, int *todasTabelas_size) {
     int numeroLinhas;
     printf("Digite o numero de linhas: ");
     scanf("%d", &numeroLinhas);
-    limparBuffer();  // Limpa o buffer
 
     for (int i = 0; i < numeroLinhas; i++) {
         valoresColunas[i] = (char **)malloc(nCol * sizeof(char *));
