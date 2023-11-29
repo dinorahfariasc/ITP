@@ -348,4 +348,36 @@
 
 //     return 0;
 // }
-//=====================================================================================
+//=====================================================================================#include <stdio.h>
+
+int main() {
+    int vetor1[100], vetor2[100], vetor_soma[100];
+    int size1, size2;
+
+    printf("Enter the size of vetor1: ");
+    scanf("%d", &size1);
+    printf("Enter elements of vetor1: ");
+    for(int i = 0; i < size1; i++) {
+        scanf("%d", &vetor1[i]);
+    }
+
+    printf("Enter the size of vetor2: ");
+    scanf("%d", &size2);
+    printf("Enter elements of vetor2: ");
+    for(int i = 0; i < size2; i++) {
+        scanf("%d", &vetor2[i]);
+    }
+
+    if(size1 == size2) {
+        printf("A soma dos vetores é: ");
+        for(int i = 0; i < size1; i++) {
+            vetor_soma[i] = vetor1[i] + vetor2[i];
+            printf("%d ", vetor_soma[i]);
+        }
+    } else {
+        printf("Os tamanhos dos vetores sao diferentes.");
+    }
+
+    return 0;
+}
+
