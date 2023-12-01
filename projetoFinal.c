@@ -33,7 +33,8 @@ void criarTabela(Tabela **todasTabelas, int *todasTabelas_size) {
 
 
     char **nomesColunas = (char **)malloc(nCol * sizeof(char *));
-    for (int i = 0; i < nCol; i++) {
+    nomesColunas[0] = strdup("ID");
+    for (int i = 1; i < nCol; i++) {
         nomesColunas[i] = (char *)malloc(100 * sizeof(char));
         printf("Digite o nome da coluna: ");
         scanf(" %[^\n]", nomesColunas[i]);
@@ -42,7 +43,7 @@ void criarTabela(Tabela **todasTabelas, int *todasTabelas_size) {
     char ***valoresColunas = (char ***)malloc(sizeof(char **) * 100);
     int numeroLinhas;
     printf("Digite o numero de entradas(linhas): ");
-    scanf("%d", &numeroLinhas);
+    scanf(" %d", &numeroLinhas);
 
     for (int i = 0; i < numeroLinhas; i++) {
         valoresColunas[i] = (char **)malloc(nCol * sizeof(char *));
