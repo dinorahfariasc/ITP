@@ -28,6 +28,10 @@ void criarTabela(Tabela **todasTabelas, int *todasTabelas_size) {
     printf("Quantidade de colunas: ");
     scanf("%d", &nCol);
 
+    // criar uma coluna fixa para o id
+    nCol++;
+
+
     char **nomesColunas = (char **)malloc(nCol * sizeof(char *));
     for (int i = 0; i < nCol; i++) {
         nomesColunas[i] = (char *)malloc(100 * sizeof(char));
@@ -114,6 +118,9 @@ void editarValorTabela(Tabela *todasTabelas, int todasTabelas_size) {
     for (int i = 0; i < todasTabelas_size; i++) {
         if (strcmp(todasTabelas[i].nomeTabela, nomeDaTabela) == 0) {
             mostrarTabela(&todasTabelas[i], 1);
+            char linha[100];
+            printf("Digite o ID da linha: ");
+            scanf(" %[^\n]", linha);
             char coluna[100];
             printf("Digite o nome da coluna: ");
             scanf(" %[^\n]", coluna);
@@ -121,9 +128,14 @@ void editarValorTabela(Tabela *todasTabelas, int todasTabelas_size) {
             printf("Digite o novo valor: ");
             scanf(" %[^\n]", novoValor);
 
-            for (int j = 0; j < todasTabelas[i].nCol; j++) {
-                if (strcmp(todasTabelas[i].nomesColunas[j], coluna) == 0) {
-                    strcpy(todasTabelas[i].listaValores[0][j], novoValor);
+            for (int j = 0; j < todasTabelas[i].numeroLinhas; j++) {
+                if (strcmp(todasTabelas[i].listaValores[j][0], linha) == 0) {
+                    for (int k = 0; k < todasTabelas[i].nCol; k++) {
+                        if (strcmp(todasTabelas[i].nomesColunas[k], coluna) == 0) {
+                            strcpy(todasTabelas[i].listaValores[j][k], novoValor);
+                            break;
+                        }
+                    }
                     break;
                 }
             }
