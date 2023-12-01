@@ -13,7 +13,16 @@ typedef struct {
 void criarTabela(Tabela **todasTabelas, int *todasTabelas_size) {
     char nome[100];
     printf("Digite o nome da tabela: ");
-    scanf("%s", nome);
+    scanf(" %[^\n]", nome);
+    
+   // se o nome da tabela já existir,pedir pra escrever outro nome
+    for (int i = 0; i < *todasTabelas_size; i++) {
+        if (strcmp((*todasTabelas)[i].nomeTabela, nome) == 0) {
+            printf("Nome da tabela já existe, digite outro nome\n");
+            scanf(" %[^\n]", nome);
+            i = -1;
+        }
+    }
 
     int nCol;
     printf("Quantidade de colunas: ");
@@ -23,12 +32,12 @@ void criarTabela(Tabela **todasTabelas, int *todasTabelas_size) {
     for (int i = 0; i < nCol; i++) {
         nomesColunas[i] = (char *)malloc(100 * sizeof(char));
         printf("Digite o nome da coluna: ");
-        scanf("%s", nomesColunas[i]);
+        scanf(" %[^\n]", nomesColunas[i]);
     }
 
     char ***valoresColunas = (char ***)malloc(sizeof(char **) * 100);
     int numeroLinhas;
-    printf("Digite o numero de linhas: ");
+    printf("Digite o numero de entradas(linhas): ");
     scanf("%d", &numeroLinhas);
 
     for (int i = 0; i < numeroLinhas; i++) {
@@ -36,7 +45,7 @@ void criarTabela(Tabela **todasTabelas, int *todasTabelas_size) {
         for (int j = 0; j < nCol; j++) {
             valoresColunas[i][j] = (char *)malloc(100 * sizeof(char));
             printf("Digite o valor da coluna [%s]: ", nomesColunas[j]);
-            scanf("%s", valoresColunas[i][j]);
+            scanf(" %[^\n]", valoresColunas[i][j]);
         }
     }
 
@@ -55,7 +64,7 @@ void criarTabela(Tabela **todasTabelas, int *todasTabelas_size) {
 void deletarTabela(Tabela *todasTabelas, int *todasTabelas_size) {
     char nomeDaTabela[100];
     printf("Digite o nome da tabela: ");
-    scanf("%s", nomeDaTabela);
+    scanf(" %[^\n]", nomeDaTabela);
 
     for (int i = 0; i < *todasTabelas_size; i++) {
         if (strcmp(todasTabelas[i].nomeTabela, nomeDaTabela) == 0) {
@@ -71,7 +80,7 @@ void deletarTabela(Tabela *todasTabelas, int *todasTabelas_size) {
 void mostrarTabela(Tabela *todasTabelas, int todasTabelas_size) {
     char nomeDaTabela[100];
     printf("Digite o nome da tabela: ");
-    scanf("%s", nomeDaTabela);
+    scanf(" %[^\n]", nomeDaTabela);
 
     for (int i = 0; i < todasTabelas_size; i++) {
         if (strcmp(todasTabelas[i].nomeTabela, nomeDaTabela) == 0) {
@@ -100,17 +109,17 @@ void mostrarTabela(Tabela *todasTabelas, int todasTabelas_size) {
 void editarValorTabela(Tabela *todasTabelas, int todasTabelas_size) {
     char nomeDaTabela[100];
     printf("Digite o nome da tabela: ");
-    scanf("%s", nomeDaTabela);
+    scanf(" %[^\n]", nomeDaTabela);
 
     for (int i = 0; i < todasTabelas_size; i++) {
         if (strcmp(todasTabelas[i].nomeTabela, nomeDaTabela) == 0) {
             mostrarTabela(&todasTabelas[i], 1);
             char coluna[100];
             printf("Digite o nome da coluna: ");
-            scanf("%s", coluna);
+            scanf(" %[^\n]", coluna);
             char novoValor[100];
             printf("Digite o novo valor: ");
-            scanf("%s", novoValor);
+            scanf(" %[^\n]", novoValor);
 
             for (int j = 0; j < todasTabelas[i].nCol; j++) {
                 if (strcmp(todasTabelas[i].nomesColunas[j], coluna) == 0) {
@@ -124,13 +133,20 @@ void editarValorTabela(Tabela *todasTabelas, int todasTabelas_size) {
     }
 }
 
+void mostarTodas(Tabela *todasTabelas, int todasTabelas_size) {
+    printf("Todas as tabelas:\n");
+    for (int i = 0; i < todasTabelas_size; i++) {
+        printf("%d - %s\n", i+1,todasTabelas[i].nomeTabela);
+    }
+}
+
 int main() {
     Tabela *todasTabelas = NULL;
     int todasTabelas_size = 0;
     int op = 0;
-
+    printf("\nBem vindo ao sistema de gerenciamento de tabelas\n");
     while (op != 8) {
-        printf("\nBem vindo ao sistema de gerenciamento de tabelas\n");
+        printf("\nMENU \n");
         printf("====================================================\n");
         printf("1 - Criar tabela\n");
         printf("2 - Deletar tabela\n");
@@ -155,9 +171,7 @@ int main() {
                 mostrarTabela(todasTabelas, todasTabelas_size);
                 break;
             case 4:
-                for (int i = 0; i < todasTabelas_size; i++) {
-                    printf("%s\n", todasTabelas[i].nomeTabela);
-                }
+                mostarTodas(todasTabelas, todasTabelas_size);
                 break;
             case 5:
                 editarValorTabela(todasTabelas, todasTabelas_size);
