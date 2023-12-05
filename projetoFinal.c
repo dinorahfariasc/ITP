@@ -10,6 +10,55 @@ typedef struct {
     int numeroLinhas;
 } Tabela;
 
+// funcao para salvar uma tabela em formato txt no computador, escolha o nome do arquivo para que possa ser recuperada depois
+void salvarTabela(Tabela *todasTabelas, int todasTabelas_size) {
+    char nomeTabela[100];
+    printf("Digite o nome da tabela que deseja salvar: ");
+    scanf(" %[^\n]", nomeTabela);
+
+    // Procurar a tabela pelo nome
+    int tabelaIndex = -1;
+    for (int i = 0; i < todasTabelas_size; i++) {
+        if (strcmp(todasTabelas[i].nomeTabela, nomeTabela) == 0) {
+            tabelaIndex = i;
+            break;
+        }
+    }
+
+    if (tabelaIndex == -1) {
+        printf("Tabela não encontrada.\n");
+        return;
+    }
+
+    char nomeArquivo[100];
+    printf("Digite o nome do arquivo .txt que será criado: ");
+    scanf(" %[^\n]", nomeArquivo);
+
+    FILE *arquivo = fopen(nomeArquivo, "w");
+    if (arquivo == NULL) {
+        printf("Erro ao criar o arquivo.\n");
+        return;
+    }
+
+    // Escrever os nomes das colunas no arquivo
+    for (int i = 0; i < todasTabelas[tabelaIndex].nCol; i++) {
+        fprintf(arquivo, "%s\t", todasTabelas[tabelaIndex].nomesColunas[i]);
+    }
+    fprintf(arquivo, "\n");
+
+    // Escrever os valores das colunas no arquivo
+    for (int i = 0; i < todasTabelas[tabelaIndex].numeroLinhas; i++) {
+        for (int j = 0; j < todasTabelas[tabelaIndex].nCol; j++) {
+            fprintf(arquivo, "%s\t", todasTabelas[tabelaIndex].listaValores[i][j]);
+        }
+        fprintf(arquivo, "\n");
+    }
+
+    fclose(arquivo);
+    printf("Tabela salva com sucesso no arquivo %s.\n", nomeArquivo);
+}
+
+
 void criarTabela(Tabela **todasTabelas, int *todasTabelas_size) {
     char nome[100];
     printf("Digite o nome da tabela: ");
@@ -165,7 +214,7 @@ int main() {
         printf("2 - Deletar tabela\n");
         printf("3 - Mostrar tabela\n");
         printf("4 - Mostrar todas as tabelas\n");
-        printf("5 - Editar valor da tabela\n");
+        printf("5 - Salvar tabela em txt\n");
         printf("6 - Editar coluna da tabela\n");
         printf("7 - Editar nome da tabela\n");
         printf("8 - Sair\n");
@@ -187,10 +236,11 @@ int main() {
                 mostarTodas(todasTabelas, todasTabelas_size);
                 break;
             case 5:
+                salvarTabela(todasTabelas, todasTabelas_size);
+                break;
+            case 6:
                 editarValorTabela(todasTabelas, todasTabelas_size);
                 break;
-            // Casos
-                    // Casos 6 e 7 podem ser adicionados aqui
         }
 
         // Restante do código
