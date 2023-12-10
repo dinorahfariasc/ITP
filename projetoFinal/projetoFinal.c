@@ -194,16 +194,16 @@ void deletarTabela(Tabela *todasTabelas, int *todasTabelas_size) {
 void exibirValorFormatado(Tabela tabela, int linha, int coluna) {
     switch (tabela.tiposColunas[coluna]) {
         case 1: // int
-            printf("%d \t", *(int *)tabela.listaValores[linha][coluna]);
+            printf("%d \t|", *(int *)tabela.listaValores[linha][coluna]);
             break;
         case 2: // float
-            printf("%f \t", *(float *)tabela.listaValores[linha][coluna]);
+            printf("%f \t|", *(float *)tabela.listaValores[linha][coluna]);
             break;
         case 3: // char
-            printf("%c \t", *(char *)tabela.listaValores[linha][coluna]);
+            printf("%c \t|", *(char *)tabela.listaValores[linha][coluna]);
             break;
         case 4: // string
-            printf("%s \t", (char *)tabela.listaValores[linha][coluna]);
+            printf("%s \t|", (char *)tabela.listaValores[linha][coluna]);
             break;
         default:
             // Lidar com outros tipos, se necessário
@@ -462,8 +462,6 @@ void criarLinha(Tabela *todasTabelas, int todasTabelas_size) {
 }
 
 void pesquisarStrings(Tabela tabela, int coluna, const char *valor) {
-    printf("Linhas com entrada '%s' na coluna '%s':\n", valor, tabela.nomesColunas[coluna]);
-
     // Verificar se a coluna é do tipo string
     if (tabela.tiposColunas[coluna] != 4) {
         printf("A pesquisa de entrada se aplica apenas a colunas do tipo string.\n");
@@ -700,8 +698,8 @@ void pesquisaValor(Tabela *todasTabelas, int todasTabelas_size){
         char valor[100];
         printf("Digite o valor para a pesquisa: ");
         scanf(" %[^\n]", valor);
-        printf("\nEntradas proximas a %s na coluna %s\n", valor, nomeColuna);
-
+        printf("\nEntradas proximas a '%s' na coluna '%s'\n", valor, nomeColuna);
+        
         for (int i = 0; i < todasTabelas_size; i++) {
             if (strcmp(todasTabelas[i].nomeTabela, nomeDaTabela) == 0) {
                 printf("\nTabela: %s\n", todasTabelas[i].nomeTabela);
