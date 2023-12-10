@@ -11,9 +11,6 @@ typedef struct {
     int *tiposColunas;
 } Tabela;
 
-// Exemplo de chamada para inserir um valor na coluna k da linha l:
-// inserirValorColuna(&todasTabelas[i], l, k);
-// onde i é o índice da tabela, l é o índice da linha e k é o índice da coluna
 // funcao para salvar uma tabela em formato txt no computador, escolha o nome do arquivo para que possa ser recuperada depois
 void salvarTabela(Tabela *todasTabelas, int todasTabelas_size) {
     char nomeTabela[100];
@@ -190,6 +187,26 @@ void deletarTabela(Tabela *todasTabelas, int *todasTabelas_size) {
     }
 }
 
+void exibirValorFormatado(Tabela tabela, int linha, int coluna) {
+    switch (tabela.tiposColunas[coluna]) {
+        case 1: // int
+            printf("%d \t| ", *(int *)tabela.listaValores[linha][coluna]);
+            break;
+        case 2: // float
+            printf("%f \t| ", *(float *)tabela.listaValores[linha][coluna]);
+            break;
+        case 3: // char
+            printf("%c \t| ", *(char *)tabela.listaValores[linha][coluna]);
+            break;
+        case 4: // string
+            printf("%s \t| ", (char *)tabela.listaValores[linha][coluna]);
+            break;
+        default:
+            // Lidar com outros tipos, se necessário
+            break;
+    }
+}
+
 void mostrarTabela(Tabela *todasTabelas, int todasTabelas_size) {
     char nomeDaTabela[100];
     printf("Digite o nome da tabela: ");
@@ -210,28 +227,7 @@ void mostrarTabela(Tabela *todasTabelas, int todasTabelas_size) {
             for (int j = 0; j < todasTabelas[i].numeroLinhas; j++) {
                 for (int k = 0; k < todasTabelas[i].nCol; k++) {
                     // verificamos o tipo de cada coluna para printar o valor
-
-                    // printar os valores de forma alinhada vendo o maior numero de caracteres em uma coluna
-                    //int maxCharCount = maiorNumeroCaracteres(todasTabelas, todasTabelas_size, k);
-                    //int dif = maxCharCount - strlen(todasTabelas[i].listaValores[j][k]);
-                    
-                    switch (todasTabelas[i].tiposColunas[k]) {
-                        case 1: // int
-                            printf("%d \t| ", *(int *)todasTabelas[i].listaValores[j][k]);
-                            break;
-                        case 2: // float
-                            printf("%f \t| ", *(float *)todasTabelas[i].listaValores[j][k]);
-                            break;
-                        case 3: // char
-                            printf("%c \t| ", *(char *)todasTabelas[i].listaValores[j][k]);
-                            break;
-                        case 4: // string
-                            printf("%s \t| ", (char *)todasTabelas[i].listaValores[j][k]);
-                            break;
-                        default:
-                        // Handle unknown data type
-                            break;
-                    }         
+                    exibirValorFormatado(todasTabelas[i], j, k);
                 }
                 printf("\n");
             }
@@ -460,15 +456,264 @@ void criarLinha(Tabela *todasTabelas, int todasTabelas_size) {
     printf("Tabela não encontrada.\n");
 }
 
-//funcao para ver o maior numero de caracteres em uma coluna e printar os valores de forma alinhada, ainda nao funciona
-int maiorNumeroCaracteres(Tabela *todasTabelas, int todasTabelas_size, int coluna) {
-    int maior = 0;
-    for (int i = 0; i < todasTabelas_size; i++) {
-        if (strlen(todasTabelas[i].nomesColunas[coluna]) > maior) {
-            maior = strlen(todasTabelas[i].nomesColunas[coluna]);
+void pesquisarStrings(Tabela tabela, int coluna, const char *valor) {
+    printf("Linhas com entrada '%s' na coluna '%s':\n", valor, tabela.nomesColunas[coluna]);
+
+    // Verificar se a coluna é do tipo string
+    if (tabela.tiposColunas[coluna] != 4) {
+        printf("A pesquisa de entrada se aplica apenas a colunas do tipo string.\n");
+        return;
+    }
+
+    // Percorrer as linhas da tabela
+    for (int i = 0; i < tabela.numeroLinhas; i++) {
+        const char *valorNaColuna = (const char *)tabela.listaValores[i][coluna];
+
+        // Verificar se o valor na coluna contém a entrada
+        if (strstr(valorNaColuna, valor) != NULL) {
+            // Imprimir toda a linha
+            for (int j = 0; j < tabela.nCol; j++) {
+                exibirValorFormatado(tabela, i, j);
+            }
+            printf("\n");
         }
     }
-    return maior;
+}
+
+void pesquisaValor(Tabela *todasTabelas, int todasTabelas_size){
+    char nomeDaTabela[100];
+    printf("Digite o nome da tabela: ");
+    scanf(" %[^\n]", nomeDaTabela);
+
+    // mostra o nome de todas as colunas da tabela
+    for (int i = 0; i < todasTabelas_size; i++) {
+        if (strcmp(todasTabelas[i].nomeTabela, nomeDaTabela) == 0) {
+            printf("Colunas da tabela %s:\n", todasTabelas[i].nomeTabela);
+            for (int j = 0; j < todasTabelas[i].nCol; j++) {
+                printf("%d - %s\n", j+1,todasTabelas[i].nomesColunas[j]);
+            }
+        }
+    }
+
+    char nomeColuna[100];
+    printf("\nDigite o nome da coluna: ");
+    scanf(" %[^\n]", nomeColuna);
+
+    // Encontrar a coluna correspondente ao nome fornecido
+    int coluna = -1;
+    for (int j = 0; j < todasTabelas[0].nCol; j++) {
+        if (strcmp(todasTabelas[0].nomesColunas[j], nomeColuna) == 0) {
+            coluna = j;
+            break;
+        }
+    }
+    if (coluna == -1) {
+        printf("Coluna não encontrada na tabela.\n");
+        return;
+    }
+
+    printf("Buscas\n");
+    printf("1 - Valores maior que o informado\n");
+    printf("2 - Valores maior ou igual que o informado\n");
+    printf("3 - Valores igual ao informado\n");
+    printf("4 - Valores menor que o informado\n");
+    printf("5 - Valores menor ou igual que o informado\n");
+    printf("6 - Valores proximos ao informado (apenas para colunas de strings)\n");
+
+    int opColuna;
+    printf("Digite a opcao desejada: ");
+    scanf("%d", &opColuna);
+    if (opColuna < 1 || opColuna > 6) {
+        printf("Opção inválida.\n");
+        return;
+    }
+
+
+    // primeira opcao de pesquisa
+    if (opColuna == 1) {
+        int valor;
+        printf("Digite o valor para a pesquisa: ");
+        scanf("%d", &valor);
+        printf("\n entradas maiores que %d na coluna %s\n", valor, nomeColuna);
+
+        for (int i = 0; i < todasTabelas_size; i++) {
+            if (strcmp(todasTabelas[i].nomeTabela, nomeDaTabela) == 0) {
+                printf("\nTabela: %s\n", todasTabelas[i].nomeTabela);
+                printf("====================================================\n");
+
+                for (int j = 0; j < todasTabelas[i].nCol; j++) {
+                    printf("%s \t| ", todasTabelas[i].nomesColunas[j]);
+                }
+
+                printf("\n");
+                printf("----------------------------------------------------\n");
+
+                // print todas as linhas em que os valores da coluna escolhida sao maiores que o valor informado
+                for (int j = 0; j < todasTabelas[i].numeroLinhas; j++) {
+                    if (*((int *)todasTabelas[i].listaValores[j][coluna]) > valor) {
+                        for (int k = 0; k < todasTabelas[i].nCol; k++) {
+                            // verificamos o tipo de cada coluna para printar o valor
+                            exibirValorFormatado(todasTabelas[i], j, k);
+                        }
+                        printf("\n");
+                    }
+                }
+                
+            }
+        }            
+    }
+    else if(opColuna == 2){
+        int valor;
+        printf("Digite o valor para a pesquisa: ");
+        scanf("%d", &valor);
+        printf("\n entradas maiores ou iguais que %d na coluna %s\n", valor, nomeColuna);
+
+        for (int i = 0; i < todasTabelas_size; i++) {
+            if (strcmp(todasTabelas[i].nomeTabela, nomeDaTabela) == 0) {
+                printf("\nTabela: %s\n", todasTabelas[i].nomeTabela);
+                printf("====================================================\n");
+
+                for (int j = 0; j < todasTabelas[i].nCol; j++) {
+                    printf("%s \t| ", todasTabelas[i].nomesColunas[j]);
+                }
+
+                printf("\n");
+                printf("----------------------------------------------------\n");
+
+                // print todas as linhas em que os valores da coluna escolhida sao maiores ou iguais que o valor informado
+                for (int j = 0; j < todasTabelas[i].numeroLinhas; j++) {
+                    if (*((int *)todasTabelas[i].listaValores[j][coluna]) >= valor) {
+                        for (int k = 0; k < todasTabelas[i].nCol; k++) {
+                            // verificamos o tipo de cada coluna para printar o valor
+                            exibirValorFormatado(todasTabelas[i], j, k);
+                        }
+                        printf("\n");
+                    }
+                }
+                
+            }
+        }            
+    }
+    else if (opColuna == 3){
+        int valor;
+        printf("Digite o valor para a pesquisa: ");
+        scanf("%d", &valor);
+        printf("\n entradas iguais a %d na coluna %s\n", valor, nomeColuna);
+
+        for (int i = 0; i < todasTabelas_size; i++) {
+            if (strcmp(todasTabelas[i].nomeTabela, nomeDaTabela) == 0) {
+                printf("\nTabela: %s\n", todasTabelas[i].nomeTabela);
+                printf("====================================================\n");
+
+                for (int j = 0; j < todasTabelas[i].nCol; j++) {
+                    printf("%s \t| ", todasTabelas[i].nomesColunas[j]);
+                }
+
+                printf("\n");
+                printf("----------------------------------------------------\n");
+
+                // print todas as linhas em que os valores da coluna escolhida sao iguais que o valor informado
+                for (int j = 0; j < todasTabelas[i].numeroLinhas; j++) {
+                    if (*((int *)todasTabelas[i].listaValores[j][coluna]) == valor) {
+                        for (int k = 0; k < todasTabelas[i].nCol; k++) {
+                            // verificamos o tipo de cada coluna para printar o valor
+                            exibirValorFormatado(todasTabelas[i], j, k);
+                        }
+                        printf("\n");
+                    }
+                }
+                
+            }
+        }            
+    }
+    else if (opColuna == 4){
+        int valor;
+        printf("Digite o valor para a pesquisa: ");
+        scanf("%d", &valor);
+        printf("\n entradas menores que %d na coluna %s\n", valor, nomeColuna);
+
+        for (int i = 0; i < todasTabelas_size; i++) {
+            if (strcmp(todasTabelas[i].nomeTabela, nomeDaTabela) == 0) {
+                printf("\nTabela: %s\n", todasTabelas[i].nomeTabela);
+                printf("====================================================\n");
+
+                for (int j = 0; j < todasTabelas[i].nCol; j++) {
+                    printf("%s \t| ", todasTabelas[i].nomesColunas[j]);
+                }
+
+                printf("\n");
+                printf("----------------------------------------------------\n");
+
+                // print todas as linhas em que os valores da coluna escolhida sao menores que o valor informado
+                for (int j = 0; j < todasTabelas[i].numeroLinhas; j++) {
+                    if (*((int *)todasTabelas[i].listaValores[j][coluna]) < valor) {
+                        for (int k = 0; k < todasTabelas[i].nCol; k++) {
+                            // verificamos o tipo de cada coluna para printar o valor
+                            exibirValorFormatado(todasTabelas[i], j, k);
+                        }
+                        printf("\n");
+                    }
+                }
+                
+            }
+        }            
+    }
+    else if (opColuna == 5){
+        int valor;
+        printf("Digite o valor para a pesquisa: ");
+        scanf("%d", &valor);
+        printf("\n entradas menores ou iguais que %d na coluna %s\n", valor, nomeColuna);
+
+        for (int i = 0; i < todasTabelas_size; i++) {
+            if (strcmp(todasTabelas[i].nomeTabela, nomeDaTabela) == 0) {
+                printf("\nTabela: %s\n", todasTabelas[i].nomeTabela);
+                printf("====================================================\n");
+
+                for (int j = 0; j < todasTabelas[i].nCol; j++) {
+                    printf("%s \t| ", todasTabelas[i].nomesColunas[j]);
+                }
+
+                printf("\n");
+                printf("----------------------------------------------------\n");
+
+                // print todas as linhas em que os valores da coluna escolhida sao menores ou iguais que o valor informado
+                for (int j = 0; j < todasTabelas[i].numeroLinhas; j++) {
+                    if (*((int *)todasTabelas[i].listaValores[j][coluna]) <= valor) {
+                        for (int k = 0; k < todasTabelas[i].nCol; k++) {
+                            // verificamos o tipo de cada coluna para printar o valor
+                            exibirValorFormatado(todasTabelas[i], j, k);
+                        }
+                        printf("\n");
+                    }
+                }
+                
+            }
+        }            
+    }
+    else if (opColuna == 6){
+        char valor[100];
+        printf("Digite o valor para a pesquisa: ");
+        scanf(" %[^\n]", valor);
+        printf("\n entradas proximas a %s na coluna %s\n", valor, nomeColuna);
+
+        for (int i = 0; i < todasTabelas_size; i++) {
+            if (strcmp(todasTabelas[i].nomeTabela, nomeDaTabela) == 0) {
+                printf("\nTabela: %s\n", todasTabelas[i].nomeTabela);
+                printf("====================================================\n");
+
+                for (int j = 0; j < todasTabelas[i].nCol; j++) {
+                    printf("%s \t| ", todasTabelas[i].nomesColunas[j]);
+                }
+
+                printf("\n");
+                printf("----------------------------------------------------\n");
+
+                // print todas as linhas em que os valores da coluna escolhida sao proximos ao valor informado
+                pesquisarStrings(todasTabelas[i], coluna, valor);     
+            }
+        }            
+    } 
+    
 }
 
 int main() {
@@ -488,12 +733,17 @@ int main() {
 		printf("| 6 - Editar coluna da tabela             |\n");
 		printf("| 7 - Apagar linha                        |\n");
         printf("| 8 - Apagar tabela                       |\n");
+        printf("| 9 - Pesquisar valor em uma tabela       |\n");
 		printf("| 0 - Sair                                |\n");
 		printf("+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+\n");
 		printf("\n");
         
         printf("Digite a opcao desejada: ");
         scanf("%d", &op);
+        if (op < 0 || op > 9) {
+            printf("Opção inválida.\n");
+            continue;
+        }
 
         switch (op) {
             case 1:
@@ -518,11 +768,12 @@ int main() {
                 deletarLinha(todasTabelas, &todasTabelas_size);
                 break;
             case 8:
-                deletarTabela(todasTabelas, todasTabelas_size);
+                deletarTabela(todasTabelas, &todasTabelas_size);
+                break;
+            case 9:
+                pesquisaValor(todasTabelas, todasTabelas_size);
                 break;
         } 
-
-
     }
     return 0;
 }
